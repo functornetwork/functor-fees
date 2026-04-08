@@ -1,0 +1,59 @@
+<h2>Fee Simulator Layout</h2>
+<p class="subtitle">How should the investor interact with the model?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Top-Down Flow</h3>
+      <p>Left panel: demand assumptions (sliders stacked vertically). Right panel: results (charts, totals). Investor reads top to bottom: market → agents → transactions → revenue.</p>
+      <div style="margin-top:12px; padding:16px; background:#1e293b; border-radius:8px; color:#e2e8f0; font-family:monospace; font-size:11px; line-height:1.6;">
+        ┌─────────────────────┬──────────────────────┐<br>
+        │ DEMAND ASSUMPTIONS  │  PROTOCOL REVENUE    │<br>
+        │                     │                      │<br>
+        │ Platforms: [===5==] │  ┌────────────────┐  │<br>
+        │ Agents/plat: [200]  │  │ ████ Revenue    │  │<br>
+        │ Tx/agent/mo: [500]  │  │ ████ breakdown  │  │<br>
+        │ TVS/agent: [$50k]   │  │ ████ pie chart  │  │<br>
+        │                     │  └────────────────┘  │<br>
+        │ KEY REGISTRATION    │                      │<br>
+        │ Fee/key: [$0.50]    │  Monthly: $XX,XXX    │<br>
+        │                     │  Annual:  $XXX,XXX   │<br>
+        │ POLICY HOOK         │                      │<br>
+        │ Fee/tx: [$0.03]     │  ┌────────────────┐  │<br>
+        │                     │  │ 12-month growth │  │<br>
+        │ [Conservative]      │  │ ──────/         │  │<br>
+        │ [Base Case]         │  │ ────/           │  │<br>
+        │ [Bull Case]         │  └────────────────┘  │<br>
+        └─────────────────────┴──────────────────────┘<br>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Story Flow</h3>
+      <p>Full width, scroll down. Each section tells a story: first the market assumptions, then the derived metrics (agents, keys, transactions), then the revenue model, then the charts. Like reading a financial model.</p>
+      <div style="margin-top:12px; padding:16px; background:#1e293b; border-radius:8px; color:#e2e8f0; font-family:monospace; font-size:11px; line-height:1.6;">
+        ┌──────────────────────────────────────────┐<br>
+        │          MARKET ASSUMPTIONS              │<br>
+        │  Platforms: [===5==]  Agents: [===200==]  │<br>
+        │  Tx/agent: [===500=]  TVS/agent: [$50k]  │<br>
+        ├──────────────────────────────────────────┤<br>
+        │          DERIVED METRICS                 │<br>
+        │  Total agents: 1,000                     │<br>
+        │  Total keys: 1,000 → KeyStore: $500      │<br>
+        │  Total tx/mo: 500,000 → Hook: $15,000    │<br>
+        ├──────────────────────────────────────────┤<br>
+        │          REVENUE MODEL                   │<br>
+        │  ┌──────────┐  ┌──────────────────────┐ │<br>
+        │  │ Pie chart │  │  12-month projection │ │<br>
+        │  │ KeyStore  │  │  ─────────/          │ │<br>
+        │  │ vs Hook   │  │  ───────/            │ │<br>
+        │  └──────────┘  └──────────────────────┘ │<br>
+        └──────────────────────────────────────────┘<br>
+      </div>
+    </div>
+  </div>
+</div>

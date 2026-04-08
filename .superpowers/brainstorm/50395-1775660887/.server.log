@@ -1,0 +1,4 @@
+{"type":"server-started","port":57878,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:57878","screen_dir":"/Users/dor1s/Documents/functor-fees/.superpowers/brainstorm/50395-1775660887"}
+{"type":"screen-added","file":"/Users/dor1s/Documents/functor-fees/.superpowers/brainstorm/50395-1775660887/layout-options.html"}
+{"type":"screen-added","file":"/Users/dor1s/Documents/functor-fees/.superpowers/brainstorm/50395-1775660887/layout-v2.html"}
+{"type":"server-stopped","reason":"idle timeout"}

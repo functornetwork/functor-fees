@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Functor Fee Simulator - Layout Options</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; padding: 32px; }
+  h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+  .subtitle { color: #64748b; font-size: 14px; margin-bottom: 32px; }
+  .options-wrap { display: flex; gap: 24px; }
+  .option-card { flex: 1; background: #111; border: 2px solid #222; border-radius: 12px; padding: 20px; cursor: pointer; transition: border-color 0.2s; }
+  .option-card:hover { border-color: #4F6AFF; }
+  .option-card.selected { border-color: #4F6AFF; box-shadow: 0 0 20px rgba(79,106,255,0.15); }
+  .option-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #4F6AFF; margin-bottom: 12px; }
+  .option-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .option-desc { font-size: 12px; color: #94a3b8; margin-bottom: 16px; line-height: 1.5; }
+
+  /* Wireframe styles */
+  .wireframe { background: #0d1117; border-radius: 8px; padding: 16px; min-height: 400px; }
+  .wf-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid #1e293b; margin-bottom: 16px; }
+  .wf-logo { width: 80px; height: 20px; background: #4F6AFF; border-radius: 4px; opacity: 0.6; }
+  .wf-tabs { display: flex; gap: 8px; }
+  .wf-tab { padding: 4px 10px; border-radius: 4px; font-size: 9px; color: #64748b; border: 1px solid #1e293b; }
+  .wf-tab.active { color: #e2e8f0; border-color: #4F6AFF; background: rgba(79,106,255,0.1); }
+
+  /* Layout A: Side by side */
+  .wf-split { display: flex; gap: 16px; height: 340px; }
+  .wf-left { width: 40%; display: flex; flex-direction: column; gap: 12px; }
+  .wf-right { width: 60%; display: flex; flex-direction: column; gap: 12px; }
+  .wf-section { background: #161b22; border-radius: 6px; padding: 12px; }
+  .wf-section-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.8px; color: #4F6AFF; margin-bottom: 8px; }
+  .wf-slider-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .wf-slider-label { font-size: 9px; color: #94a3b8; }
+  .wf-slider-val { font-size: 9px; color: #e2e8f0; font-weight: 600; }
+  .wf-slider-track { width: 100%; height: 4px; background: #1e293b; border-radius: 2px; margin-bottom: 10px; position: relative; }
+  .wf-slider-fill { height: 100%; background: #4F6AFF; border-radius: 2px; }
+  .wf-slider-thumb { width: 10px; height: 10px; background: #fff; border-radius: 50%; position: absolute; top: -3px; }
+
+  /* Charts */
+  .wf-big-number { font-size: 28px; font-weight: 700; color: #fff; }
+  .wf-big-label { font-size: 9px; color: #64748b; margin-top: 2px; }
+  .wf-metrics-row { display: flex; gap: 8px; }
+  .wf-metric { flex: 1; background: #161b22; border-radius: 6px; padding: 10px; text-align: center; }
+  .wf-metric-val { font-size: 16px; font-weight: 700; color: #fff; }
+  .wf-metric-label { font-size: 8px; color: #64748b; margin-top: 2px; }
+  .wf-chart-area { flex: 1; background: #161b22; border-radius: 6px; padding: 12px; position: relative; overflow: hidden; }
+  .wf-chart-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b; margin-bottom: 8px; }
+
+  /* SVG chart mock */
+  .wf-pie { display: flex; align-items: center; justify-content: center; gap: 16px; height: 100%; }
+  .wf-pie-legend { display: flex; flex-direction: column; gap: 6px; }
+  .wf-pie-item { display: flex; align-items: center; gap: 6px; font-size: 9px; color: #94a3b8; }
+  .wf-pie-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* Layout B: Story flow */
+  .wf-story { display: flex; flex-direction: column; gap: 12px; height: 340px; overflow: hidden; }
+  .wf-story-section { background: #161b22; border-radius: 6px; padding: 12px; }
+  .wf-story-sliders { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+  .wf-derived-row { display: flex; gap: 8px; }
+  .wf-derived-card { flex: 1; background: #0d1117; border-radius: 4px; padding: 8px; text-align: center; }
+  .wf-derived-val { font-size: 14px; font-weight: 700; color: #fff; }
+  .wf-derived-label { font-size: 7px; color: #64748b; margin-top: 2px; }
+  .wf-story-charts { display: flex; gap: 8px; }
+  .wf-story-chart { flex: 1; background: #0d1117; border-radius: 4px; padding: 8px; height: 80px; }
+
+  /* Line chart mock */
+  .wf-line-chart { position: relative; height: calc(100% - 20px); }
+  .wf-line { position: absolute; bottom: 0; left: 0; right: 0; }
+
+  .select-indicator { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #4F6AFF; color: white; padding: 8px 20px; border-radius: 20px; font-size: 12px; display: none; }
+</style>
+</head>
+<body>
+
+<h1>Fee Simulator Layout</h1>
+<p class="subtitle">Click to select which layout feels right for an investor presentation</p>
+
+<div class="options-wrap">
+
+  <!-- OPTION A: Side by Side -->
+  <div class="option-card" onclick="select(this, 'A')" id="optA">
+    <div class="option-label">Option A</div>
+    <div class="option-title">Dashboard View</div>
+    <div class="option-desc">Assumptions on the left, live results on the right. Investor adjusts sliders and sees charts update instantly.</div>
+
+    <div class="wireframe">
+      <div class="wf-header">
+        <div class="wf-logo"></div>
+        <div class="wf-tabs">
+          <div class="wf-tab active">Model</div>
+          <div class="wf-tab">Scenarios</div>
+        </div>
+      </div>
+      <div class="wf-split">
+        <div class="wf-left">
+          <div class="wf-section" style="flex:1;">
+            <div class="wf-section-label">Demand Assumptions</div>
+            <div class="wf-slider-row"><span class="wf-slider-label">Agent platforms</span><span class="wf-slider-val">5</span></div>
+            <div class="wf-slider-track"><div class="wf-slider-fill" style="width:40%"></div><div class="wf-slider-thumb" style="left:38%"></div></div>
+            <div class="wf-slider-row"><span class="wf-slider-label">Agents per platform</span><span class="wf-slider-val">200</span></div>
+            <div class="wf-slider-track"><div class="wf-slider-fill" style="width:30%"></div><div class="wf-slider-thumb" style="left:28%"></div></div>
+            <div class="wf-slider-row"><span class="wf-slider-label">Tx per agent / month</span><span class="wf-slider-val">500</span></div>
+            <div class="wf-slider-track"><div class="wf-slider-fill" style="width:50%"></div><div class="wf-slider-thumb" style="left:48%"></div></div>
+            <div class="wf-slider-row"><span class="wf-slider-label">Avg TVS per agent</span><span class="wf-slider-val">$50K</span></div>
+            <div class="wf-slider-track"><div class="wf-slider-fill" style="width:25%"></div><div class="wf-slider-thumb" style="left:23%"></div></div>
+          </div>
+          <div class="wf-section">
+            <div class="wf-section-label">Fee Structure</div>
+            <div class="wf-slider-row"><span class="wf-slider-label">Key registration fee</span><span class="wf-slider-val">$0.50</span></div>
+            <div class="wf-slider-track"><div class="wf-slider-fill" style="width:15%"></div><div class="wf-slider-thumb" style="left:13%"></div></div>
+            <div class="wf-slider-row"><span class="wf-slider-label">Per-tx policy fee</span><span class="wf-slider-val">$0.03</span></div>
+            <div class="wf-slider-track"><div class="wf-slider-fill" style="width:10%"></div><div class="wf-slider-thumb" style="left:8%"></div></div>
+          </div>
+        </div>
+        <div class="wf-right">
+          <div class="wf-metrics-row">
+            <div class="wf-metric">
+              <div class="wf-metric-val">$50M</div>
+              <div class="wf-metric-label">Total TVS</div>
+            </div>
+            <div class="wf-metric">
+              <div class="wf-metric-val">1,000</div>
+              <div class="wf-metric-label">Total Agents</div>
+            </div>
+            <div class="wf-metric">
+              <div class="wf-metric-val">500K</div>
+              <div class="wf-metric-label">Tx / Month</div>
+            </div>
+            <div class="wf-metric">
+              <div class="wf-metric-val" style="color:#22c55e;">$15.5K</div>
+              <div class="wf-metric-label">Monthly Revenue</div>
+            </div>
+          </div>
+          <div class="wf-chart-area" style="flex:1;">
+            <div class="wf-chart-label">12-Month Revenue Projection</div>
+            <svg width="100%" height="85%" viewBox="0 0 300 120" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#4F6AFF" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#4F6AFF" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,110 Q30,108 60,100 Q90,90 120,78 Q150,65 180,50 Q210,38 240,25 Q270,15 300,5 L300,120 L0,120 Z" fill="url(#grad)"/>
+              <path d="M0,110 Q30,108 60,100 Q90,90 120,78 Q150,65 180,50 Q210,38 240,25 Q270,15 300,5" fill="none" stroke="#4F6AFF" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="wf-chart-area">
+            <div class="wf-pie">
+              <svg width="70" height="70" viewBox="0 0 70 70">
+                <circle cx="35" cy="35" r="28" fill="none" stroke="#4F6AFF" stroke-width="8" stroke-dasharray="145 175" transform="rotate(-90 35 35)"/>
+                <circle cx="35" cy="35" r="28" fill="none" stroke="#22c55e" stroke-width="8" stroke-dasharray="30 175" stroke-dashoffset="-145" transform="rotate(-90 35 35)"/>
+              </svg>
+              <div class="wf-pie-legend">
+                <div class="wf-pie-item"><div class="wf-pie-dot" style="background:#4F6AFF;"></div>PolicyHook fees (83%)</div>
+                <div class="wf-pie-item"><div class="wf-pie-dot" style="background:#22c55e;"></div>KeyStore fees (17%)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION B: Story Flow -->
+  <div class="option-card" onclick="select(this, 'B')" id="optB">
+    <div class="option-label">Option B</div>
+    <div class="option-title">Story Flow</div>
+    <div class="option-desc">Scroll down through the narrative: market assumptions → derived metrics → revenue breakdown. Reads like a financial model.</div>
+
+    <div class="wireframe">
+      <div class="wf-header">
+        <div class="wf-logo"></div>
+        <div class="wf-tabs">
+          <div class="wf-tab active">Fee Model</div>
+        </div>
+      </div>
+      <div class="wf-story">
+        <div class="wf-story-section">
+          <div class="wf-section-label">Market Assumptions</div>
+          <div class="wf-story-sliders">
+            <div>
+              <div class="wf-slider-row"><span class="wf-slider-label">Agent platforms</span><span class="wf-slider-val">5</span></div>
+              <div class="wf-slider-track"><div class="wf-slider-fill" style="width:40%"></div><div class="wf-slider-thumb" style="left:38%"></div></div>
+            </div>
+            <div>
+              <div class="wf-slider-row"><span class="wf-slider-label">Agents per platform</span><span class="wf-slider-val">200</span></div>
+              <div class="wf-slider-track"><div class="wf-slider-fill" style="width:30%"></div><div class="wf-slider-thumb" style="left:28%"></div></div>
+            </div>
+            <div>
+              <div class="wf-slider-row"><span class="wf-slider-label">Tx per agent / month</span><span class="wf-slider-val">500</span></div>
+              <div class="wf-slider-track"><div class="wf-slider-fill" style="width:50%"></div><div class="wf-slider-thumb" style="left:48%"></div></div>
+            </div>
+            <div>
+              <div class="wf-slider-row"><span class="wf-slider-label">Avg TVS per agent</span><span class="wf-slider-val">$50K</span></div>
+              <div class="wf-slider-track"><div class="wf-slider-fill" style="width:25%"></div><div class="wf-slider-thumb" style="left:23%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wf-derived-row">
+          <div class="wf-derived-card">
+            <div class="wf-derived-val">1,000</div>
+            <div class="wf-derived-label">Total Agents</div>
+          </div>
+          <div class="wf-derived-card">
+            <div class="wf-derived-val">$50M</div>
+            <div class="wf-derived-label">Total TVS</div>
+          </div>
+          <div class="wf-derived-card">
+            <div class="wf-derived-val">500K</div>
+            <div class="wf-derived-label">Monthly Tx</div>
+          </div>
+          <div class="wf-derived-card">
+            <div class="wf-derived-val" style="color:#22c55e;">$186K</div>
+            <div class="wf-derived-label">Annual Revenue</div>
+          </div>
+        </div>
+
+        <div class="wf-story-section">
+          <div class="wf-section-label">Revenue Breakdown</div>
+          <div class="wf-story-charts">
+            <div class="wf-story-chart">
+              <div class="wf-chart-label" style="font-size:7px;">Revenue Split</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                <svg width="50" height="50" viewBox="0 0 50 50">
+                  <circle cx="25" cy="25" r="20" fill="none" stroke="#4F6AFF" stroke-width="6" stroke-dasharray="104 126" transform="rotate(-90 25 25)"/>
+                  <circle cx="25" cy="25" r="20" fill="none" stroke="#22c55e" stroke-width="6" stroke-dasharray="22 126" stroke-dashoffset="-104" transform="rotate(-90 25 25)"/>
+                </svg>
+                <div style="font-size:7px;color:#94a3b8;line-height:1.6;">
+                  <div><span style="color:#4F6AFF;">●</span> PolicyHook</div>
+                  <div><span style="color:#22c55e;">●</span> KeyStore</div>
+                </div>
+              </div>
+            </div>
+            <div class="wf-story-chart">
+              <div class="wf-chart-label" style="font-size:7px;">12-Month Projection</div>
+              <svg width="100%" height="50" viewBox="0 0 200 50" preserveAspectRatio="none" style="margin-top:4px;">
+                <path d="M0,45 Q25,43 50,38 Q75,32 100,25 Q125,18 150,12 Q175,7 200,2" fill="none" stroke="#4F6AFF" stroke-width="1.5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="select-indicator" id="indicator"></div>
+
+<script>
+function select(el, choice) {
+  document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const ind = document.getElementById('indicator');
+  ind.style.display = 'block';
+  ind.textContent = 'Selected: Option ' + choice;
+
+  // Record event
+  fetch('/event', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({type:'click', choice: choice.toLowerCase(), text: 'Option ' + choice})
+  }).catch(() => {});
+}
+</script>
+
+</body>
+</html>
