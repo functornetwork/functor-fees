@@ -12,7 +12,7 @@ export function MarketContext({ data }: MarketContextProps) {
       <h2 className="text-xs font-semibold uppercase tracking-wider text-subdued mb-3">
         Market Today
       </h2>
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <MetricCard
           label="Onchain Agents"
           value={data.totalAgents.toLocaleString()}
