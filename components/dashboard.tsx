@@ -9,7 +9,7 @@ import { fetchMarketData, MarketData } from "@/lib/market-data";
 import { DEFAULTS } from "@/lib/constants";
 
 const INITIAL_MARKET: MarketData = {
-  totalAgents: 119_000,
+  totalAgents: 127_300,
   txPerMonth: 75_410_000,
   volumePerMonth: 24_240_000,
   totalProjects: 137,

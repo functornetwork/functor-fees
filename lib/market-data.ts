@@ -6,7 +6,7 @@ export interface MarketData {
 }
 
 const FALLBACK: MarketData = {
-  totalAgents: 119_000,
+  totalAgents: 127_300,
   txPerMonth: 75_410_000,
   volumePerMonth: 24_240_000,
   totalProjects: 137,

@@ -17,9 +17,8 @@ export function AssumptionsPanel({ inputs, onChange, marketAgents, marketTxPerMo
   };
 
   const functorAccounts = Math.round(marketAgents * (inputs.marketPenetration / 100));
-  const txPerAgent = marketAgents > 0 ? Math.round(marketTxPerMonth / marketAgents) : 500;
-  const totalTx = functorAccounts * txPerAgent;
-  const checkedTx = Math.round(totalTx * (inputs.policyCheckRate / 100));
+  const txPerAgent = marketAgents > 0 ? Math.round(marketTxPerMonth / marketAgents) : 0;
+  const policyChecks = functorAccounts * txPerAgent;
 
   return (
     <div className="space-y-6">
@@ -27,33 +26,18 @@ export function AssumptionsPanel({ inputs, onChange, marketAgents, marketTxPerMo
         <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-blue-400 mb-2">
           Market Penetration
         </h3>
-        <p className="text-sm text-subdued mb-4">
-          {marketAgents.toLocaleString()} agents onchain today. At {inputs.marketPenetration}%, Functor protects{" "}
-          <span className="text-fg font-semibold">{functorAccounts.toLocaleString()}</span> accounts
-          doing <span className="text-fg font-semibold">{totalTx.toLocaleString()}</span> tx/month.
-        </p>
+        <div className="text-sm text-subdued mb-4 space-y-1">
+          <p>{marketAgents.toLocaleString()} agents onchain today.</p>
+          <p>At {inputs.marketPenetration}%, Functor protects{" "}
+            <span className="text-fg font-semibold">{functorAccounts.toLocaleString()}</span> accounts.</p>
+          <p>Every transaction runs through the policy hook:{" "}
+            <span className="text-fg font-semibold">{policyChecks.toLocaleString()}</span> policy checks/month.</p>
+        </div>
         <Slider
           label="Market penetration"
           value={inputs.marketPenetration}
           {...SLIDER_RANGES.marketPenetration}
           onChange={(v) => update("marketPenetration", v)}
-          format={(v) => `${v}%`}
-        />
-      </div>
-
-      <div>
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-blue-400 mb-2">
-          Policy-Checked Transactions
-        </h3>
-        <p className="text-sm text-subdued mb-4">
-          Of those {totalTx.toLocaleString()} tx/month, {inputs.policyCheckRate}% run through Functor&apos;s policy hook.
-          That&apos;s <span className="text-fg font-semibold">{checkedTx.toLocaleString()}</span> policy checks/month.
-        </p>
-        <Slider
-          label="Transactions checked by policy"
-          value={inputs.policyCheckRate}
-          {...SLIDER_RANGES.policyCheckRate}
-          onChange={(v) => update("policyCheckRate", v)}
           format={(v) => `${v}%`}
         />
       </div>
