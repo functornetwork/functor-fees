@@ -30,7 +30,10 @@ export function AssumptionsPanel({ inputs, onChange, marketAgents, marketTxPerMo
           <p>{marketAgents.toLocaleString()} agents onchain today.</p>
           <p>At {inputs.marketPenetration}%, Functor protects{" "}
             <span className="text-fg font-semibold">{functorAccounts.toLocaleString()}</span> accounts.</p>
-          <p>Every transaction runs through the policy hook:{" "}
+          <p>Each agent averages{" "}
+            <span className="text-fg font-semibold">{txPerAgent.toLocaleString()}</span> tx/month.</p>
+          <p><span className="text-fg font-semibold">{functorAccounts.toLocaleString()}</span> accounts
+            {" "}&times; {txPerAgent.toLocaleString()} tx ={" "}
             <span className="text-fg font-semibold">{policyChecks.toLocaleString()}</span> policy checks/month.</p>
         </div>
         <Slider
