@@ -1,7 +1,6 @@
 import { MetricCard } from "./metric-card";
 import { RevenueChart } from "./revenue-chart";
 import { RevenueSplit } from "./revenue-split";
-import { SafeBenchmark } from "./safe-benchmark";
 import { ModelResults } from "@/lib/model";
 
 interface ResultsPanelProps {
@@ -27,17 +26,14 @@ export function ResultsPanel({ results }: ResultsPanelProps) {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <MetricCard label="Functor Accounts" value={fmt(results.functorAccounts)} />
         <MetricCard label="Policy Checks / Month" value={fmt(results.policyChecksPerMonth)} />
-        <MetricCard label="Keys Registered" value={fmt(results.totalKeys)} />
+        <MetricCard label="Total Tx / Year" value={fmt(results.policyChecksPerMonth * 12)} />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <MetricCard label="Monthly Revenue" value={fmtUsd(results.totalRevMonth)} highlight />
         <MetricCard label="Annual Revenue" value={fmtUsd(results.totalRevAnnual)} highlight />
       </div>
       <RevenueChart results={results} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <RevenueSplit results={results} />
-        <SafeBenchmark results={results} />
-      </div>
+      <RevenueSplit results={results} />
     </div>
   );
 }

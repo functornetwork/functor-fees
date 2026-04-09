@@ -16,7 +16,7 @@ export function RevenueSplit({ results }: RevenueSplitProps) {
   return (
     <div className="bg-white/5 rounded-lg p-4 border border-white/10">
       <h3 className="text-xs font-semibold uppercase tracking-wider text-subdued mb-3">
-        Revenue Split
+        Monthly Revenue Split
       </h3>
       <div className="flex items-center gap-4">
         <ResponsiveContainer width={100} height={100}>
