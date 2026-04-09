@@ -17,17 +17,20 @@ export function AssumptionsPanel({ inputs, onChange, marketAgents, marketTxPerMo
   };
 
   const functorAccounts = Math.round(marketAgents * (inputs.marketPenetration / 100));
-  const avgTxPerAgent = marketAgents > 0 ? Math.round(marketTxPerMonth / marketAgents) : 500;
+  const txPerAgent = marketAgents > 0 ? Math.round(marketTxPerMonth / marketAgents) : 500;
+  const totalTx = functorAccounts * txPerAgent;
+  const checkedTx = Math.round(totalTx * (inputs.policyCheckRate / 100));
 
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-blue-400 mb-2">
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-blue-400 mb-2">
           Market Penetration
         </h3>
-        <p className="text-xs text-subdued mb-4">
+        <p className="text-sm text-subdued mb-4">
           {marketAgents.toLocaleString()} agents onchain today. At {inputs.marketPenetration}%, Functor protects{" "}
-          <span className="text-fg font-semibold">{functorAccounts.toLocaleString()}</span> accounts.
+          <span className="text-fg font-semibold">{functorAccounts.toLocaleString()}</span> accounts
+          doing <span className="text-fg font-semibold">{totalTx.toLocaleString()}</span> tx/month.
         </p>
         <Slider
           label="Market penetration"
@@ -39,33 +42,24 @@ export function AssumptionsPanel({ inputs, onChange, marketAgents, marketTxPerMo
       </div>
 
       <div>
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-blue-400 mb-2">
-          Policy Configuration
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-blue-400 mb-2">
+          Policy-Checked Transactions
         </h3>
-        <p className="text-xs text-subdued mb-4">
-          Each account has {inputs.policiesPerAccount} policies. Each transaction checks all {inputs.policiesPerAccount} policies.
-          At ~{avgTxPerAgent.toLocaleString()} tx/agent/month, that&apos;s{" "}
-          <span className="text-fg font-semibold">
-            {(functorAccounts * avgTxPerAgent * inputs.policiesPerAccount).toLocaleString()}
-          </span>{" "}
-          policy checks/month.
+        <p className="text-sm text-subdued mb-4">
+          Of those {totalTx.toLocaleString()} tx/month, {inputs.policyCheckRate}% run through Functor&apos;s policy hook.
+          That&apos;s <span className="text-fg font-semibold">{checkedTx.toLocaleString()}</span> policy checks/month.
         </p>
         <Slider
-          label="Policies per account"
-          value={inputs.policiesPerAccount}
-          {...SLIDER_RANGES.policiesPerAccount}
-          onChange={(v) => update("policiesPerAccount", v)}
-        />
-        <Slider
-          label="Keys per account"
-          value={inputs.keysPerAccount}
-          {...SLIDER_RANGES.keysPerAccount}
-          onChange={(v) => update("keysPerAccount", v)}
+          label="Transactions checked by policy"
+          value={inputs.policyCheckRate}
+          {...SLIDER_RANGES.policyCheckRate}
+          onChange={(v) => update("policyCheckRate", v)}
+          format={(v) => `${v}%`}
         />
       </div>
 
       <div>
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-blue-400 mb-2">
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-blue-400 mb-2">
           Fee Structure
         </h3>
         <Slider
@@ -81,6 +75,12 @@ export function AssumptionsPanel({ inputs, onChange, marketAgents, marketTxPerMo
           {...SLIDER_RANGES.feePerKeyRegistration}
           onChange={(v) => update("feePerKeyRegistration", v)}
           format={(v) => `$${v.toFixed(2)}`}
+        />
+        <Slider
+          label="Keys per account"
+          value={inputs.keysPerAccount}
+          {...SLIDER_RANGES.keysPerAccount}
+          onChange={(v) => update("keysPerAccount", v)}
         />
       </div>
     </div>

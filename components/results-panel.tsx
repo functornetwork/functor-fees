@@ -26,7 +26,7 @@ export function ResultsPanel({ results }: ResultsPanelProps) {
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <MetricCard label="Functor Accounts" value={fmt(results.functorAccounts)} />
-        <MetricCard label="Policy Checks / Month" value={fmt(results.totalPolicyChecksPerMonth)} />
+        <MetricCard label="Policy Checks / Month" value={fmt(results.policyCheckedTxMonth)} />
         <MetricCard label="Keys Registered" value={fmt(results.totalKeys)} />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

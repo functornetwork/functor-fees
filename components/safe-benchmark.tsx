@@ -6,7 +6,7 @@ interface SafeBenchmarkProps {
 }
 
 export function SafeBenchmark({ results }: SafeBenchmarkProps) {
-  const functorTxYear = results.txPerMonth * 12;
+  const functorTxYear = results.policyCheckedTxMonth * 12;
 
   return (
     <div className="bg-white/5 rounded-lg p-4 border border-white/10">

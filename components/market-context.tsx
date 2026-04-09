@@ -16,21 +16,24 @@ export function MarketContext({ data }: MarketContextProps) {
           label="Onchain Agents"
           value={data.totalAgents.toLocaleString()}
           source="8004scan.io"
+          sourceUrl="https://8004scan.io/networks"
         />
         <MetricCard
           label="Tx / Month"
           value={`${(data.txPerMonth / 1_000_000).toFixed(1)}M`}
           source="x402.org"
+          sourceUrl="https://x402.org"
         />
         <MetricCard
           label="Volume / Month"
           value={`$${(data.volumePerMonth / 1_000_000).toFixed(1)}M`}
           source="x402.org"
+          sourceUrl="https://x402.org"
         />
         <MetricCard
-          label="Projects"
-          value={data.totalProjects.toLocaleString()}
-          source="agentpaymentsstack.com"
+          label="Avg Tx / Agent / Month"
+          value={data.totalAgents > 0 ? Math.round(data.txPerMonth / data.totalAgents).toLocaleString() : "N/A"}
+          source="derived"
         />
       </div>
     </div>
