@@ -10,7 +10,7 @@ interface RevenueChartProps {
 export function RevenueChart({ results }: RevenueChartProps) {
   const data = results.monthlyProjection.map((m) => ({
     name: `M${m.month}`,
-    revenue: Math.round(m.revenue),
+    revenue: Math.round(m.totalRev),
   }));
 
   return (
@@ -28,7 +28,10 @@ export function RevenueChart({ results }: RevenueChartProps) {
           </defs>
           <XAxis dataKey="name" tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10 }} axisLine={false} tickLine={false} />
           <YAxis tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}K`} />
-          <Tooltip contentStyle={{ background: "#161b22", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, color: "#f8f8f8", fontSize: 12 }} formatter={(value) => [`$${Number(value).toLocaleString()}`, "Revenue"]} />
+          <Tooltip
+            contentStyle={{ background: "#161b22", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, color: "#f8f8f8", fontSize: 12 }}
+            formatter={(value) => [`$${Number(value).toLocaleString()}`, "Revenue"]}
+          />
           <Area type="monotone" dataKey="revenue" stroke="#1d4ed8" fill="url(#revenueGrad)" strokeWidth={2} />
         </AreaChart>
       </ResponsiveContainer>

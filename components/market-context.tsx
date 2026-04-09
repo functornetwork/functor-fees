@@ -1,6 +1,5 @@
 import { MetricCard } from "./metric-card";
 import { MarketData } from "@/lib/market-data";
-import { X402_DATA } from "@/lib/constants";
 
 interface MarketContextProps {
   data: MarketData;
@@ -21,12 +20,12 @@ export function MarketContext({ data }: MarketContextProps) {
         <MetricCard
           label="Tx / Month"
           value={`${(data.txPerMonth / 1_000_000).toFixed(1)}M`}
-          source={X402_DATA.source}
+          source="x402.org"
         />
         <MetricCard
           label="Volume / Month"
           value={`$${(data.volumePerMonth / 1_000_000).toFixed(1)}M`}
-          source={X402_DATA.source}
+          source="x402.org"
         />
         <MetricCard
           label="Projects"
