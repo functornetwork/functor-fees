@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Functor Protocol Fee Simulator",
   description: "Interactive fee simulator for the Functor Protocol",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
